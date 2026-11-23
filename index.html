@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Código QR · Generador</title>
+  <meta name="description" content="Convierte un enlace, un número de teléfono, un correo o una dirección en un código QR que puedes escanear o descargar.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230f766e'/%3E%3Cg fill='%23fff'%3E%3Crect x='4' y='4' width='6' height='6' rx='1.2'/%3E%3Crect x='14' y='4' width='6' height='6' rx='1.2'/%3E%3Crect x='4' y='14' width='6' height='6' rx='1.2'/%3E%3Crect x='14' y='14' width='2.4' height='2.4'/%3E%3Crect x='17.6' y='14' width='2.4' height='2.4'/%3E%3Crect x='14' y='17.6' width='2.4' height='2.4'/%3E%3Crect x='17.6' y='17.6' width='2.4' height='2.4'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="intro">
+      <h1>Generador de códigos QR</h1>
+      <p>Convierte un enlace, un teléfono, un correo o una dirección en un código QR listo para escanear o descargar.</p>
+    </header>
+
+    <div class="generator">
+      <section class="card form-card" aria-labelledby="formTitle">
+        <h2 id="formTitle" class="sr-only">Datos para el código QR</h2>
+
+        <div class="tabs" role="tablist" aria-label="Tipo de contenido">
+          <button class="tab is-active" role="tab" aria-selected="true" data-type="url" id="tab-url" aria-controls="contentInput" tabindex="0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.4 4.53"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.42-1.42"/></svg>
+            <span>Enlace</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false" data-type="phone" id="tab-phone" aria-controls="contentInput" tabindex="-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>Teléfono</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false" data-type="email" id="tab-email" aria-controls="contentInput" tabindex="-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Correo</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false" data-type="address" id="tab-address" aria-controls="contentInput" tabindex="-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Dirección</span>
+          </button>
+        </div>
+
+        <div class="field">
+          <label id="fieldLabel" for="contentInput">Enlace (URL)</label>
+          <input id="contentInput" type="text" inputmode="url" placeholder="https://ejemplo.com" autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <p class="hint" id="hint" aria-live="polite">Escribe o pega el enlace que quieres compartir.</p>
+      </section>
+
+      <section class="card qr-card" aria-labelledby="qrTitle">
+        <h2 id="qrTitle" class="sr-only">Vista previa y descarga del código QR</h2>
+
+        <div class="qr-frame" id="qrFrame">
+          <canvas id="qrCanvas" role="img" aria-label="Código QR generado" hidden></canvas>
+          <div class="qr-empty" id="qrEmpty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h3M20 18v3"/></svg>
+            <p id="qrEmptyText">Tu código QR aparecerá aquí</p>
+          </div>
+        </div>
+
+        <p class="encoded" id="encodedText" hidden></p>
+
+        <button class="btn" id="downloadBtn" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Descargar PNG</span>
+        </button>
+
+        <p class="qr-note">Puedes escanearlo directamente desde la pantalla o descargar la imagen.</p>
+      </section>
+    </div>
+
+  </main>
+
+  <script src="vendor/qrcode.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
